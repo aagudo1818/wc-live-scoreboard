@@ -9,13 +9,9 @@ public class LiveScoreBoardTest {
     private final LiveScoreBoard liveScoreBoard = new LiveScoreBoard();
 
     @Test
-    public void given_home_team_and_away_team_should_start_add_new_match_to_scoreboard(){
-        Team homeTeam = new Team();
-        homeTeam.setName("HOME");
-        homeTeam.setAbbreviation("HME");
-        Team awayTeam = new Team();
-        awayTeam.setName("AWAY");
-        awayTeam.setAbbreviation("AWY");
+    public void given_home_team_and_away_team_should_add_new_match_to_scoreboard(){
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", "AWY");
 
         liveScoreBoard.startNewMatch(homeTeam, awayTeam);
 
