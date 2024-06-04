@@ -3,6 +3,8 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class LiveScoreBoardTest {
 
@@ -16,5 +18,20 @@ public class LiveScoreBoardTest {
         liveScoreBoard.startNewMatch(homeTeam, awayTeam);
 
         assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
+    }
+
+    @Test
+    public void given_home_team_and_away_team_should_initialize_new_match_to_scoreboard(){
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        liveScoreBoard.startNewMatch(homeTeam, awayTeam);
+
+        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getHomeTeam(), is(homeTeam));
+        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getAwayTeam(), is(awayTeam));
+        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getScore().getAwayTeamScoredGoals(), is(0));
+        assertNotNull(liveScoreBoard.getScoreBoard().stream().iterator().next().getStartTime());
+        assertNull(liveScoreBoard.getScoreBoard().stream().iterator().next().getEndTime());
     }
 }
