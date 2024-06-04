@@ -4,6 +4,11 @@ public class Score {
     private int homeTeamScoredGoals;
     private int awayTeamScoredGoals;
 
+    public Score(int homeTeamScoredGoals, int awayTeamScoredGoals) {
+        this.homeTeamScoredGoals = homeTeamScoredGoals;
+        this.awayTeamScoredGoals = awayTeamScoredGoals;
+    }
+
     public int getHomeTeamScoredGoals() {
         return homeTeamScoredGoals;
     }

@@ -9,6 +9,13 @@ public class Match {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
+    public Match(Team homeTeam, Team awayTeam, Score score, LocalDateTime startTime) {
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.score = score;
+        this.startTime = startTime;
+    }
+
     public Team getHomeTeam() {
         return homeTeam;
     }

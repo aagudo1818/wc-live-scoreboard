@@ -26,12 +26,13 @@ public class LiveScoreBoardTest {
         Team awayTeam = new Team("AWAY", "AWY");
 
         liveScoreBoard.startNewMatch(homeTeam, awayTeam);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
 
-        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getHomeTeam(), is(homeTeam));
-        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getAwayTeam(), is(awayTeam));
-        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getScore().getHomeTeamScoredGoals(), is(0));
-        assertThat(liveScoreBoard.getScoreBoard().stream().iterator().next().getScore().getAwayTeamScoredGoals(), is(0));
-        assertNotNull(liveScoreBoard.getScoreBoard().stream().iterator().next().getStartTime());
-        assertNull(liveScoreBoard.getScoreBoard().stream().iterator().next().getEndTime());
+        assertThat(scoreBoard.getHomeTeam(), is(homeTeam));
+        assertThat(scoreBoard.getAwayTeam(), is(awayTeam));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+        assertNotNull(scoreBoard.getStartTime());
+        assertNull(scoreBoard.getEndTime());
     }
 }
