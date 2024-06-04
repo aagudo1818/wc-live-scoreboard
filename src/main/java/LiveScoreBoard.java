@@ -7,6 +7,7 @@ public class LiveScoreBoard {
     private HashSet<Match> scoreBoard = new HashSet<>();
 
     public void startNewMatch(Team homeTeam, Team awayteam){
+        scoreBoard.add(new Match());
     }
 
     public HashSet<Match> getScoreBoard() {
