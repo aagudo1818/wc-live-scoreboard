@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Team {
     private String name;
     private String abbreviation;
@@ -7,6 +9,18 @@ public class Team {
     public Team(String name, String abbreviation) {
         this.name = name;
         this.abbreviation = abbreviation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Team team)) return false;
+        return Objects.equals(getName(), team.getName()) && Objects.equals(getAbbreviation(), team.getAbbreviation());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getAbbreviation());
     }
 
     public String getName() {
