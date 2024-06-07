@@ -23,4 +23,9 @@ public class LiveScoreBoard {
     public HashSet<Match> getScoreBoard() {
         return scoreBoard;
     }
+
+    public void updateScore(Match match, int homeTeamScore, int awayTeamScore) {
+        match.getScore().setHomeTeamScoredGoals(homeTeamScore);
+        match.getScore().setAwayTeamScoredGoals(awayTeamScore);
+    }
 }
