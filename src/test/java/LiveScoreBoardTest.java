@@ -1,6 +1,10 @@
 import exception.BadParameterException;
+import model.Match;
+import model.Score;
 import model.Team;
 import org.junit.Test;
+
+import java.time.LocalDateTime;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -69,5 +73,19 @@ public class LiveScoreBoardTest {
         var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
 
         assertThat(exception.getMessage(), is("One of the specified teams is already playing a match"));
+    }
+
+    @Test
+    public void given_home_score_and_away_score_should_update_match() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", "AWY");
+        Match match = new Match(homeTeam,awayTeam, new Score(0, 0), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        liveScoreBoard.updateScore(match, 1, 0);
+
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
     }
 }
