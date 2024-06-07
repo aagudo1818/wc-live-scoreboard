@@ -77,15 +77,13 @@ public class LiveScoreBoardTest {
 
     @Test
     public void given_home_score_and_away_score_should_update_match() {
-        Team homeTeam = new Team("HOME", "HME");
-        Team awayTeam = new Team("AWAY", "AWY");
-        Match match = new Match(homeTeam,awayTeam, new Score(0, 0), LocalDateTime.now());
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
         var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
 
-        liveScoreBoard.updateScore(match, 1, 0);
+        liveScoreBoard.updateScore(match, 1, 2);
 
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
-        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(2));
     }
 }
