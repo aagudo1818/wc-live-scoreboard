@@ -76,7 +76,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_home_score_and_away_score_should_update_match() {
+    public void given_home_score_and_away_score_should_update_match() throws BadParameterException{
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
         var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
@@ -85,5 +85,32 @@ public class LiveScoreBoardTest {
 
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(2));
+    }
+
+    @Test
+    public void given_not_positive_home_score_and_valid_away_score_should_throw_exception_and_not_update_score() throws BadParameterException{
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(match, -1, 2));
+
+        assertThat(exception.getMessage(), is("Home team score and away team score must be positive numbers"));
+
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+    }
+
+    @Test
+    public void given_valid_home_score_and_not_positive_away_score_should_throw_exception_and_not_update_score() {
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(match, 1, -2));
+
+        assertThat(exception.getMessage(), is("Home team score and away team score must be positive numbers"));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
     }
 }
