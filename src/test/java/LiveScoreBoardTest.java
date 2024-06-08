@@ -174,4 +174,19 @@ public class LiveScoreBoardTest {
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
     }
+
+    @Test
+    public void given_home_score_and_away_score_should_correct_match() throws BadParameterException{
+        Score score = new Score();
+        score.setHomeTeamScoredGoals(2);
+        score.setAwayTeamScoredGoals(0);
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), score, LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        liveScoreBoard.correctScore(match, 1, 0);
+
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+    }
 }
