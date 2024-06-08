@@ -22,6 +22,9 @@ public class LiveScoreBoard {
         }
         var retrievedMatch = scoreBoard.stream().filter( matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
         if (retrievedMatch.isPresent()) {
+            if (homeTeamScore < retrievedMatch.get().getScore().getHomeTeamScoredGoals() || awayTeamScore < retrievedMatch.get().getScore().getAwayTeamScoredGoals() ){
+                throw new BadParameterException("Scores to update must be greater than the ones recorded. Recorded scores( home %s, away: %s ), new scores ( home %s, away: %s )".formatted(retrievedMatch.get().getScore().getHomeTeamScoredGoals(), retrievedMatch.get().getScore().getAwayTeamScoredGoals(), homeTeamScore, awayTeamScore));
+            }
             retrievedMatch.get().getScore().setHomeTeamScoredGoals(homeTeamScore);
             retrievedMatch.get().getScore().setAwayTeamScoredGoals(awayTeamScore);
         }else {
