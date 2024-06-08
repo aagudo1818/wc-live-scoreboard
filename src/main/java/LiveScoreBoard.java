@@ -24,7 +24,10 @@ public class LiveScoreBoard {
         return scoreBoard;
     }
 
-    public void updateScore(Match match, int homeTeamScore, int awayTeamScore) {
+    public void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException {
+        if (homeTeamScore < 0 || awayTeamScore < 0){
+            throw new BadParameterException("Home team score and away team score must be positive numbers");
+        }
         match.getScore().setHomeTeamScoredGoals(homeTeamScore);
         match.getScore().setAwayTeamScoredGoals(awayTeamScore);
     }
