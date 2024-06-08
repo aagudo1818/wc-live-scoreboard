@@ -5,6 +5,7 @@ import model.Team;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 
 public class LiveScoreBoard {
     private final HashSet<Match> scoreBoard = new HashSet<>(); //TODO make it thread safe
@@ -20,7 +21,7 @@ public class LiveScoreBoard {
         if (homeTeamScore < 0 || awayTeamScore < 0) {
             throw new BadParameterException("Home team score and away team score must be positive numbers");
         }
-        var retrievedMatch = scoreBoard.stream().filter(matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
+        var retrievedMatch = retrieveMatchFromScoreBoard(match);
         if (retrievedMatch.isPresent()) {
             var matchScore = retrievedMatch.get().getScore();
             if (matchScore.isMinorHomeScoreThanRecorded(homeTeamScore) || matchScore.isMinorAwayScoreThanRecorded(awayTeamScore)) {
@@ -34,13 +35,17 @@ public class LiveScoreBoard {
     }
 
     public void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException{
-        var retrievedMatch = scoreBoard.stream().filter(matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst().get();
+        var retrievedMatch = retrieveMatchFromScoreBoard(match).get();
         retrievedMatch.setScore(new Score());
         updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
     }
 
     private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
         return scoreBoard.stream().anyMatch(match -> match.getHomeTeam().equals(homeTeam) || match.getAwayTeam().equals(awayTeam));
+    }
+
+    private Optional<Match> retrieveMatchFromScoreBoard(Match match){
+        return scoreBoard.stream().filter(matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
     }
 
     public HashSet<Match> getScoreBoard() {
