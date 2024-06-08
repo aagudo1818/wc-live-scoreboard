@@ -21,8 +21,12 @@ public class LiveScoreBoard {
             throw new BadParameterException("Home team score and away team score must be positive numbers");
         }
         var retrievedMatch = scoreBoard.stream().filter( matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
-        retrievedMatch.get().getScore().setHomeTeamScoredGoals(homeTeamScore);
-        retrievedMatch.get().getScore().setAwayTeamScoredGoals(awayTeamScore);
+        if (retrievedMatch.isPresent()) {
+            retrievedMatch.get().getScore().setHomeTeamScoredGoals(homeTeamScore);
+            retrievedMatch.get().getScore().setAwayTeamScoredGoals(awayTeamScore);
+        }else {
+            throw new BadParameterException("The match was not added in the scoreboard");
+        }
     }
 
     private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {

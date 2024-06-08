@@ -140,7 +140,7 @@ public class LiveScoreBoardTest {
 
         var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(differentMatch, 1, 2));
 
-        assertThat(exception.getMessage(), is("The match does not exist in the scoreboard"));
+        assertThat(exception.getMessage(), is("The match was not added in the scoreboard"));
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
     }
