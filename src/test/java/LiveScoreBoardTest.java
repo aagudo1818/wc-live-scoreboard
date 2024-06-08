@@ -116,4 +116,18 @@ public class LiveScoreBoardTest {
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
     }
+
+    @Test
+    public void given_home_score_and_away_score_of_added_to_score_match_without_same_memory_reference_should_update_match() throws BadParameterException{
+        var time = LocalDateTime.now();
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), time);
+        Match matchWithAnotherMemoryPosition = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), time);
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        liveScoreBoard.updateScore(matchWithAnotherMemoryPosition, 1, 2);
+
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(2));
+    }
 }
