@@ -91,7 +91,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_not_positive_home_score_and_valid_away_score_should_throw_exception_and_not_update_score() throws BadParameterException{
+    public void given_not_positive_home_score_and_valid_away_score_should_throw_exception_and_not_update_score() {
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
         var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
@@ -118,7 +118,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_home_score_and_away_score_of_added_to_score_match_without_same_memory_reference_should_update_match() throws BadParameterException{
+    public void given_home_score_and_away_score_of_added_to_score_match_without_same_memory_reference_should_update_match() throws BadParameterException {
         var time = LocalDateTime.now();
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), time);
         Match matchWithAnotherMemoryPosition = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), time);
@@ -132,7 +132,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_valid_home_score_and_valid_away_score_and_not_added_match_should_throw_exception_and_not_update_score() throws BadParameterException{
+    public void given_valid_home_score_and_valid_away_score_and_not_added_match_should_throw_exception_and_not_update_score() {
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), LocalDateTime.now());
         Match differentMatch = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), new Score(0, 0), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
