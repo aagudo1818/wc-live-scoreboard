@@ -16,14 +16,6 @@ public class LiveScoreBoard {
         scoreBoard.add(new Match(homeTeam, awayTeam, new Score(0, 0), LocalDateTime.now())); //TODO make it timezone safe
     }
 
-    private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
-        return scoreBoard.stream().anyMatch( match -> match.getHomeTeam().equals(homeTeam) ||  match.getAwayTeam().equals(awayTeam));
-    }
-
-    public HashSet<Match> getScoreBoard() {
-        return scoreBoard;
-    }
-
     public void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException {
         if (homeTeamScore < 0 || awayTeamScore < 0){
             throw new BadParameterException("Home team score and away team score must be positive numbers");
@@ -31,5 +23,13 @@ public class LiveScoreBoard {
         var retrievedMatch = scoreBoard.stream().filter( matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
         retrievedMatch.get().getScore().setHomeTeamScoredGoals(homeTeamScore);
         retrievedMatch.get().getScore().setAwayTeamScoredGoals(awayTeamScore);
+    }
+
+    private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
+        return scoreBoard.stream().anyMatch( match -> match.getHomeTeam().equals(homeTeam) ||  match.getAwayTeam().equals(awayTeam));
+    }
+
+    public HashSet<Match> getScoreBoard() {
+        return scoreBoard;
     }
 }
