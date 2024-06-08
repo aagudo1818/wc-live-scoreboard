@@ -50,6 +50,7 @@ public class LiveScoreBoardTest {
         var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam2));
 
         assertThat(exception.getMessage(), is("One of the specified teams is already playing a match"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
     }
 
     @Test
@@ -62,6 +63,7 @@ public class LiveScoreBoardTest {
         var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.startNewMatch(homeTeam2, awayTeam));
 
         assertThat(exception.getMessage(), is("One of the specified teams is already playing a match"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
     }
 
     @Test
@@ -73,6 +75,7 @@ public class LiveScoreBoardTest {
         var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
 
         assertThat(exception.getMessage(), is("One of the specified teams is already playing a match"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
     }
 
     @Test
