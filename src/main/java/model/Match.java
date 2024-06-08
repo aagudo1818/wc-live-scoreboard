@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Match {
     private Team homeTeam;
@@ -14,6 +15,18 @@ public class Match {
         this.awayTeam = awayTeam;
         this.score = score;
         this.startTime = startTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Match match)) return false;
+        return Objects.equals(getHomeTeam(), match.getHomeTeam()) && Objects.equals(getAwayTeam(), match.getAwayTeam()) && Objects.equals(getScore(), match.getScore()) && Objects.equals(getStartTime(), match.getStartTime()) && Objects.equals(getEndTime(), match.getEndTime());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getHomeTeam(), getAwayTeam(), getScore(), getStartTime(), getEndTime());
     }
 
     public Team getHomeTeam() {

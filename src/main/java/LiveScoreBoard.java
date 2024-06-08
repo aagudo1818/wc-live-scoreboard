@@ -28,7 +28,8 @@ public class LiveScoreBoard {
         if (homeTeamScore < 0 || awayTeamScore < 0){
             throw new BadParameterException("Home team score and away team score must be positive numbers");
         }
-        match.getScore().setHomeTeamScoredGoals(homeTeamScore);
-        match.getScore().setAwayTeamScoredGoals(awayTeamScore);
+        var retrievedMatch = scoreBoard.stream().filter( matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
+        retrievedMatch.get().getScore().setHomeTeamScoredGoals(homeTeamScore);
+        retrievedMatch.get().getScore().setAwayTeamScoredGoals(awayTeamScore);
     }
 }
