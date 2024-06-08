@@ -1,0 +1,1 @@
+We will assume goals are updated after they have been confirmed, so the user should not remove them.

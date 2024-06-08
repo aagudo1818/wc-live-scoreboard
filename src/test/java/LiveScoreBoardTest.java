@@ -130,4 +130,18 @@ public class LiveScoreBoardTest {
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(2));
     }
+
+    @Test
+    public void given_valid_home_score_and_valid_away_score_and_not_added_match_should_throw_exception_and_not_update_score() throws BadParameterException{
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), LocalDateTime.now());
+        Match differentMatch = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), new Score(0, 0), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(differentMatch, 1, 2));
+
+        assertThat(exception.getMessage(), is("The match does not exist in the scoreboard"));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+    }
 }
