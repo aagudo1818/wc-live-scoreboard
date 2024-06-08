@@ -33,6 +33,12 @@ public class LiveScoreBoard {
         }
     }
 
+    public void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException{
+        var retrievedMatch = scoreBoard.stream().filter(matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst().get();
+        retrievedMatch.setScore(new Score());
+        updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
+    }
+
     private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
         return scoreBoard.stream().anyMatch(match -> match.getHomeTeam().equals(homeTeam) || match.getAwayTeam().equals(awayTeam));
     }
