@@ -189,4 +189,21 @@ public class LiveScoreBoardTest {
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
     }
+
+    @Test
+    public void given_valid_home_score_and_valid_away_score_and_not_added_match_should_throw_exception_and_not_correct_score() {
+        Score score = new Score();
+        score.setHomeTeamScoredGoals(2);
+        score.setAwayTeamScoredGoals(0);
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), score, LocalDateTime.now());
+        Match differentMatch = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), score, LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.correctScore(differentMatch, 1, 0));
+
+        assertThat(exception.getMessage(), is("The match was not added in the scoreboard"));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(2));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+    }
 }
