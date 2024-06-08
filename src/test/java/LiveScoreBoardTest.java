@@ -118,6 +118,32 @@ public class LiveScoreBoardTest {
     }
 
     @Test
+    public void given_minor_home_score_than_the_one_recorded_and_valid_away_score_should_throw_exception_and_not_update_score() {
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(1, 0), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(match, 0, 0));
+
+        assertThat(exception.getMessage(), is("Scores to update must be greater than the ones recorded. Recorded scores( home 1, away: 0 ), new scores ( home 0, away: 0 )"));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(1));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+    }
+
+    @Test
+    public void given_valid_home_score_than_the_one_recorded_and_minor_away_score_should_throw_exception_and_not_update_score() {
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 1), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(match, 0, 0));
+
+        assertThat(exception.getMessage(), is("Scores to update must be greater than the ones recorded. Recorded scores( home 0, away: 1 ), new scores ( home 0, away: 0 )"));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(1));
+    }
+
+    @Test
     public void given_home_score_and_away_score_of_added_to_score_match_without_same_memory_reference_should_update_match() throws BadParameterException {
         var time = LocalDateTime.now();
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(0, 0), time);
