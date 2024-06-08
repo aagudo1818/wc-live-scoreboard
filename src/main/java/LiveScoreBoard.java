@@ -5,7 +5,6 @@ import model.Team;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Optional;
 
 public class LiveScoreBoard {
     private final HashSet<Match> scoreBoard = new HashSet<>(); //TODO make it thread safe
@@ -22,34 +21,31 @@ public class LiveScoreBoard {
             throw new BadParameterException("Home team score and away team score must be positive numbers");
         }
         var retrievedMatch = retrieveMatchFromScoreBoard(match);
-        if (retrievedMatch.isPresent()) {
-            var matchScore = retrievedMatch.get().getScore();
-            if (matchScore.isMinorHomeScoreThanRecorded(homeTeamScore) || matchScore.isMinorAwayScoreThanRecorded(awayTeamScore)) {
-                throw new BadParameterException("Scores to update must be greater than the ones recorded. Recorded scores( home %s, away: %s ), new scores ( home %s, away: %s )".formatted(matchScore.getHomeTeamScoredGoals(), matchScore.getAwayTeamScoredGoals(), homeTeamScore, awayTeamScore));
-            }
-            matchScore.setHomeTeamScoredGoals(homeTeamScore);
-            matchScore.setAwayTeamScoredGoals(awayTeamScore);
-        } else {
-            throw new BadParameterException("The match was not added in the scoreboard");
+        var matchScore = retrievedMatch.getScore();
+        if (matchScore.isMinorHomeScoreThanRecorded(homeTeamScore) || matchScore.isMinorAwayScoreThanRecorded(awayTeamScore)) {
+            throw new BadParameterException("Scores to update must be greater than the ones recorded. Recorded scores( home %s, away: %s ), new scores ( home %s, away: %s )".formatted(matchScore.getHomeTeamScoredGoals(), matchScore.getAwayTeamScoredGoals(), homeTeamScore, awayTeamScore));
         }
+        matchScore.setHomeTeamScoredGoals(homeTeamScore);
+        matchScore.setAwayTeamScoredGoals(awayTeamScore);
     }
 
     public void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException{
         var retrievedMatch = retrieveMatchFromScoreBoard(match);
-        if (retrievedMatch.isPresent()) {
-            retrievedMatch.get().setScore(new Score());
-            updateScore(retrievedMatch.get(), homeTeamScore, awayTeamScore);
-        } else {
-            throw new BadParameterException("The match was not added in the scoreboard");
-        }
+        retrievedMatch.setScore(new Score());
+        updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
     }
 
     private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
         return scoreBoard.stream().anyMatch(match -> match.getHomeTeam().equals(homeTeam) || match.getAwayTeam().equals(awayTeam));
     }
 
-    private Optional<Match> retrieveMatchFromScoreBoard(Match match){
-        return scoreBoard.stream().filter(matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
+    private Match retrieveMatchFromScoreBoard(Match match) throws BadParameterException {
+        var retrievedOptionalMatch = scoreBoard.stream().filter(matchFromScoreBoard -> matchFromScoreBoard.equals(match)).findFirst();
+        if (retrievedOptionalMatch.isPresent()) {
+            return retrievedOptionalMatch.get();
+        } else {
+            throw new BadParameterException("The match was not added in the scoreboard");
+        }
     }
 
     public HashSet<Match> getScoreBoard() {

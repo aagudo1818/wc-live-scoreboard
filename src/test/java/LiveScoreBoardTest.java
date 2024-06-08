@@ -164,11 +164,11 @@ public class LiveScoreBoardTest {
     @Test
     public void given_valid_home_score_and_valid_away_score_and_not_added_match_should_throw_exception_and_not_update_score() {
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now());
-        Match differentMatch = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), new Score(), LocalDateTime.now());
+        Match distinctMatch = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), new Score(), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
         var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
 
-        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(differentMatch, 1, 2));
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.updateScore(distinctMatch, 1, 2));
 
         assertThat(exception.getMessage(), is("The match was not added in the scoreboard"));
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
@@ -196,11 +196,11 @@ public class LiveScoreBoardTest {
         score.setHomeTeamScoredGoals(2);
         score.setAwayTeamScoredGoals(0);
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), score, LocalDateTime.now());
-        Match differentMatch = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), score, LocalDateTime.now());
+        Match distinctMatch = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), score, LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
         var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
 
-        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.correctScore(differentMatch, 1, 0));
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.correctScore(distinctMatch, 1, 0));
 
         assertThat(exception.getMessage(), is("The match was not added in the scoreboard"));
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(2));
