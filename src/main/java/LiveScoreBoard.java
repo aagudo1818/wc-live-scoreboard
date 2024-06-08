@@ -35,9 +35,13 @@ public class LiveScoreBoard {
     }
 
     public void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException{
-        var retrievedMatch = retrieveMatchFromScoreBoard(match).get();
-        retrievedMatch.setScore(new Score());
-        updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
+        var retrievedMatch = retrieveMatchFromScoreBoard(match);
+        if (retrievedMatch.isPresent()) {
+            retrievedMatch.get().setScore(new Score());
+            updateScore(retrievedMatch.get(), homeTeamScore, awayTeamScore);
+        } else {
+            throw new BadParameterException("The match was not added in the scoreboard");
+        }
     }
 
     private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
