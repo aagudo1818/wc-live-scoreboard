@@ -32,6 +32,7 @@ public class LiveScoreBoardTest {
         liveScoreBoard.startNewMatch(homeTeam, awayTeam);
         var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
 
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
         assertThat(scoreBoard.getHomeTeam(), is(homeTeam));
         assertThat(scoreBoard.getAwayTeam(), is(awayTeam));
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
@@ -433,7 +434,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_match_should_remove_it_from_scoreboard() {
+    public void given_match_should_remove_it_from_scoreboard() throws BadParameterException {
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
 
@@ -443,7 +444,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_match_without_same_memory_reference_should_delete_match() {
+    public void given_match_without_same_memory_reference_should_delete_match() throws BadParameterException {
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
 
