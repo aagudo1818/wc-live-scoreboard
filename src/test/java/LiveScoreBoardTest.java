@@ -39,6 +39,26 @@ public class LiveScoreBoardTest {
         assertNotNull(scoreBoard.getStartTime());
         assertNull(scoreBoard.getEndTime());
     }
+    @Test
+    public void given_home_team_and_away_team_with_properties_with_white_spaces_should_initialize_new_match_to_scoreboard_with_trimmed_teams() throws BadParameterException {
+        Team homeTeam = new Team("HOME ", "HME   ");
+        Team awayTeam = new Team(" AWAY ", "  AWY ");
+
+        liveScoreBoard.startNewMatch(homeTeam, awayTeam);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
+        assertThat(scoreBoard.getHomeTeam(), is(homeTeam));
+        assertThat(scoreBoard.getHomeTeam().getName(), is("HOME"));
+        assertThat(scoreBoard.getHomeTeam().getAbbreviation(), is("HME"));
+        assertThat(scoreBoard.getAwayTeam(), is(awayTeam));
+        assertThat(scoreBoard.getAwayTeam().getName(), is("AWAY"));
+        assertThat(scoreBoard.getAwayTeam().getAbbreviation(), is("AWY"));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+        assertNotNull(scoreBoard.getStartTime());
+        assertNull(scoreBoard.getEndTime());
+    }
 
     @Test
     public void given_null_name_home_team_should_not_create_another_match_with_it() {
@@ -230,6 +250,20 @@ public class LiveScoreBoardTest {
     }
 
     @Test
+    public void given_repeated_home_team_with_white_spaces_should_not_create_another_match_with_it() throws BadParameterException {
+        Team homeTeam = new Team("HOME", "HME");
+        Team homeTeam2 = new Team("HOME  ", " HME ");
+        Team awayTeam = new Team("AWAY", "AWY");
+        Team awayTeam2 = new Team("AWAY2", "AW2");
+
+        liveScoreBoard.startNewMatch(homeTeam, awayTeam);
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam2, awayTeam2));
+
+        assertThat(exception.getMessage(), is("One of the specified teams is already playing a match"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
+    }
+
+    @Test
     public void given_repeated_away_team_should_not_create_another_match_with_it() throws BadParameterException {
         Team homeTeam = new Team("HOME", "HME");
         Team homeTeam2 = new Team("HOME2", "HM2");
@@ -237,6 +271,20 @@ public class LiveScoreBoardTest {
 
         liveScoreBoard.startNewMatch(homeTeam, awayTeam);
         var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.startNewMatch(homeTeam2, awayTeam));
+
+        assertThat(exception.getMessage(), is("One of the specified teams is already playing a match"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
+    }
+
+    @Test
+    public void given_repeated_away_team_with_white_spaces_should_not_create_another_match_with_it() throws BadParameterException {
+        Team homeTeam = new Team("HOME", "HME");
+        Team homeTeam2 = new Team("HOME2", "HM2");
+        Team awayTeam = new Team("AWAY", "AWY");
+        Team awayTeam2 = new Team(" AWAY  ", " AWY ");
+
+        liveScoreBoard.startNewMatch(homeTeam, awayTeam);
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.startNewMatch(homeTeam2, awayTeam2));
 
         assertThat(exception.getMessage(), is("One of the specified teams is already playing a match"));
         assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
