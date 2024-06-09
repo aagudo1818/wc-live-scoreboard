@@ -471,7 +471,7 @@ public class LiveScoreBoardTest {
         score2.setHomeTeamScoredGoals(2);
         score2.setAwayTeamScoredGoals(5);
         Match match2 = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), score2, LocalDateTime.now());
-        Match match3 = new Match(new Team("HOME3", "HM3"), new Team("AWAY3", "AW3"), new Score(), LocalDateTime.now());
+        Match match3 = new Match(new Team("HOME3", "HM3"), new Team("AWAY3", "AW3"), new Score(), LocalDateTime.now().plusSeconds(1));
         Score score4 = new Score();
         score4.setHomeTeamScoredGoals(1);
         score4.setAwayTeamScoredGoals(2);

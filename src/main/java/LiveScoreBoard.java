@@ -4,15 +4,17 @@ import model.Score;
 import model.Team;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class LiveScoreBoard {
-    private final HashSet<Match> scoreBoard = new HashSet<>(); //TODO make it thread safe
+    private final Set<Match> scoreBoard = ConcurrentHashMap.newKeySet();
 
-    public void startNewMatch(Team homeTeam, Team awayTeam) throws BadParameterException {
+    public synchronized  void startNewMatch(Team homeTeam, Team awayTeam) throws BadParameterException {
         if (isNullEmptyOrBlank(homeTeam.getName()) || isNullEmptyOrBlank(awayTeam.getName())) {
             throw new BadParameterException("Team name not blank value is required");
         }
@@ -27,10 +29,10 @@ public class LiveScoreBoard {
         if (scoreBoardContainsMatchWithRepeatedTeams(homeTeam, awayTeam)) {
             throw new BadParameterException("One of the specified teams is already playing a match");
         }
-        scoreBoard.add(new Match(homeTeam, awayTeam, new Score(), LocalDateTime.now())); //TODO make it timezone safe
+        scoreBoard.add(new Match(homeTeam, awayTeam, new Score(), LocalDateTime.now(ZoneOffset.UTC)));
     }
 
-    public void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException {
+    public synchronized void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException {
         if (homeTeamScore < 0 || awayTeamScore < 0) {
             throw new BadParameterException("Home team score and away team score must be positive numbers");
         }
@@ -43,13 +45,13 @@ public class LiveScoreBoard {
         matchScore.setAwayTeamScoredGoals(awayTeamScore);
     }
 
-    public void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException {
+    public synchronized void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException {
         var retrievedMatch = retrieveMatchFromScoreBoard(match);
         retrievedMatch.setScore(new Score());
         updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
     }
 
-    public void endMatch(Match match) throws BadParameterException {
+    public synchronized void endMatch(Match match) throws BadParameterException {
         var retrievedMatch = retrieveMatchFromScoreBoard(match);
         scoreBoard.remove(retrievedMatch);
     }
@@ -78,7 +80,7 @@ public class LiveScoreBoard {
                 .collect(Collectors.toList());
     }
 
-    public HashSet<Match> getScoreBoard() {
+    public Set<Match> getScoreBoard() {
         return scoreBoard;
     }
 }
