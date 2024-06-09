@@ -10,6 +10,9 @@ public class LiveScoreBoard {
     private final HashSet<Match> scoreBoard = new HashSet<>(); //TODO make it thread safe
 
     public void startNewMatch(Team homeTeam, Team awayTeam) throws BadParameterException {
+        if (homeTeam.getName() == null || homeTeam.getName().isEmpty() || homeTeam.getName().replace(" ", "").isEmpty() || awayTeam.getName() == null || awayTeam.getName().isEmpty() || awayTeam.getName().replace(" ", "").isEmpty()){
+            throw new BadParameterException("Team name not blank value is required");
+        }
         if (scoreBoardContainsMatchWithRepeatedTeams(homeTeam, awayTeam)) {
             throw new BadParameterException("One of the specified teams is already playing a match");
         }
