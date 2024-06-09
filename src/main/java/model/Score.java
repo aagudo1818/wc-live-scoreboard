@@ -18,11 +18,11 @@ public class Score {
         return Objects.hash(getHomeTeamScoredGoals(), getAwayTeamScoredGoals());
     }
 
-    public boolean isMinorHomeScoreThanRecorded(int homeTeamScoredGoals){
+    public boolean isMinorHomeScoreThanRecorded(int homeTeamScoredGoals) {
         return homeTeamScoredGoals < this.homeTeamScoredGoals;
     }
 
-    public boolean isMinorAwayScoreThanRecorded(int awayTeamScoredGoals){
+    public boolean isMinorAwayScoreThanRecorded(int awayTeamScoredGoals) {
         return awayTeamScoredGoals < this.awayTeamScoredGoals;
     }
 

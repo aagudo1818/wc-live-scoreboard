@@ -39,6 +39,7 @@ public class LiveScoreBoardTest {
         assertNotNull(scoreBoard.getStartTime());
         assertNull(scoreBoard.getEndTime());
     }
+
     @Test
     public void given_home_team_and_away_team_with_properties_with_white_spaces_should_initialize_new_match_to_scoreboard_with_trimmed_teams() throws BadParameterException {
         Team homeTeam = new Team("HOME ", "HME   ");
