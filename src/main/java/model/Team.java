@@ -24,8 +24,8 @@ public class Team {
     }
 
     public void trimProperties() {
-        this.name = name.trim();
-        this.abbreviation = abbreviation.trim();
+        this.name = name.toUpperCase().trim();
+        this.abbreviation = abbreviation.toUpperCase().trim();
     }
 
     public String getName() {
