@@ -171,6 +171,7 @@ public class LiveScoreBoardTest {
         assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
         assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
     }
+
     @Test
     public void given_more_than_three_characters_abbreviation_home_team_should_not_create_another_match_with_it() {
         Team homeTeam = new Team("HOME", "HMEE");
@@ -254,7 +255,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_home_score_and_away_score_should_update_match() throws BadParameterException{
+    public void given_home_score_and_away_score_should_update_match() throws BadParameterException {
         Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now());
         liveScoreBoard.getScoreBoard().add(match);
         var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
@@ -351,7 +352,7 @@ public class LiveScoreBoardTest {
     }
 
     @Test
-    public void given_home_score_and_away_score_should_correct_match() throws BadParameterException{
+    public void given_home_score_and_away_score_should_correct_match() throws BadParameterException {
         Score score = new Score();
         score.setHomeTeamScoredGoals(2);
         score.setAwayTeamScoredGoals(0);

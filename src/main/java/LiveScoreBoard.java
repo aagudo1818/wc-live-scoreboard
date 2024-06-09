@@ -10,13 +10,13 @@ public class LiveScoreBoard {
     private final HashSet<Match> scoreBoard = new HashSet<>(); //TODO make it thread safe
 
     public void startNewMatch(Team homeTeam, Team awayTeam) throws BadParameterException {
-        if (isNullEmptyOrBlank(homeTeam.getName()) || isNullEmptyOrBlank(awayTeam.getName())){
+        if (isNullEmptyOrBlank(homeTeam.getName()) || isNullEmptyOrBlank(awayTeam.getName())) {
             throw new BadParameterException("Team name not blank value is required");
         }
-        if (isNullEmptyOrBlank(homeTeam.getAbbreviation()) || isNullEmptyOrBlank(awayTeam.getAbbreviation())){
+        if (isNullEmptyOrBlank(homeTeam.getAbbreviation()) || isNullEmptyOrBlank(awayTeam.getAbbreviation())) {
             throw new BadParameterException("Team abbreviation not blank value is required");
         }
-        if (homeTeam.getAbbreviation().length() != 3 || awayTeam.getAbbreviation().length() != 3){
+        if (homeTeam.getAbbreviation().length() != 3 || awayTeam.getAbbreviation().length() != 3) {
             throw new BadParameterException("Team abbreviations must be three characters long");
         }
         if (scoreBoardContainsMatchWithRepeatedTeams(homeTeam, awayTeam)) {
@@ -38,7 +38,7 @@ public class LiveScoreBoard {
         matchScore.setAwayTeamScoredGoals(awayTeamScore);
     }
 
-    public void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException{
+    public void correctScore(Match match, int homeTeamScore, int awayTeamScore) throws BadParameterException {
         var retrievedMatch = retrieveMatchFromScoreBoard(match);
         retrievedMatch.setScore(new Score());
         updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
@@ -57,7 +57,7 @@ public class LiveScoreBoard {
         }
     }
 
-    private boolean isNullEmptyOrBlank(String value){
+    private boolean isNullEmptyOrBlank(String value) {
         return value == null || value.isBlank();
     }
 
