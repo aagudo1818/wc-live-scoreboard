@@ -107,6 +107,72 @@ public class LiveScoreBoardTest {
     }
 
     @Test
+    public void given_null_abbreviation_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", null);
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_null_abbreviation_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", null);
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_empty_abbreviation_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_empty_abbreviation_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", "");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_blank_abbreviation_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "  ");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_blank_abbreviation_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", " ");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
     public void given_repeated_home_team_should_not_create_another_match_with_it() throws BadParameterException {
         Team homeTeam = new Team("HOME", "HME");
         Team awayTeam = new Team("AWAY", "AWY");
