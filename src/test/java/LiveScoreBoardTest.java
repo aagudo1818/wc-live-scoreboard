@@ -61,6 +61,26 @@ public class LiveScoreBoardTest {
     }
 
     @Test
+    public void given_home_team_and_away_team_with_properties_with_white_spaces_should_initialize_new_match_to_scoreboard_with_upper_case_teams() throws BadParameterException {
+        Team homeTeam = new Team("home", "hme");
+        Team awayTeam = new Team("away", "awy");
+
+        liveScoreBoard.startNewMatch(homeTeam, awayTeam);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
+        assertThat(scoreBoard.getHomeTeam(), is(homeTeam));
+        assertThat(scoreBoard.getHomeTeam().getName(), is("HOME"));
+        assertThat(scoreBoard.getHomeTeam().getAbbreviation(), is("HME"));
+        assertThat(scoreBoard.getAwayTeam(), is(awayTeam));
+        assertThat(scoreBoard.getAwayTeam().getName(), is("AWAY"));
+        assertThat(scoreBoard.getAwayTeam().getAbbreviation(), is("AWY"));
+        assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
+        assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
+        assertNotNull(scoreBoard.getStartTime());
+    }
+
+    @Test
     public void given_null_name_home_team_should_not_create_another_match_with_it() {
         Team homeTeam = new Team(null, "HME");
         Team awayTeam = new Team("AWAY", "AWY");
