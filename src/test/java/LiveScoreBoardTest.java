@@ -171,6 +171,49 @@ public class LiveScoreBoardTest {
         assertThat(exception.getMessage(), is("Team abbreviation not blank value is required"));
         assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
     }
+    @Test
+    public void given_more_than_three_characters_abbreviation_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HMEE");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviations must be three characters long"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_less_than_three_characters_abbreviation_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HM");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviations must be three characters long"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_more_than_three_characters_abbreviation_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", "AWYY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviations must be three characters long"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_less_than_three_characters_abbreviation_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("AWAY", "AW");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team abbreviations must be three characters long"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
 
     @Test
     public void given_repeated_home_team_should_not_create_another_match_with_it() throws BadParameterException {
