@@ -441,4 +441,14 @@ public class LiveScoreBoardTest {
 
         assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
     }
+
+    @Test
+    public void given_match_without_same_memory_reference_should_delete_match() {
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+
+        liveScoreBoard.endMatch(new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now()));
+
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
 }
