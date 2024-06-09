@@ -451,4 +451,17 @@ public class LiveScoreBoardTest {
 
         assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
     }
+
+    @Test
+    public void given_not_added_match_should_not_throw_exception_and_not_delete_any_match() {
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+        var scoreBoard = liveScoreBoard.getScoreBoard().stream().iterator().next();
+
+        var exception = assertThrows(BadParameterException.class, () -> liveScoreBoard.endMatch(new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), new Score(), LocalDateTime.now())));
+
+        assertThat(exception.getMessage(), is("The match was not added in the scoreboard"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
+        assertThat(scoreBoard, is(match));
+    }
 }
