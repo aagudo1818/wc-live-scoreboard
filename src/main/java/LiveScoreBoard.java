@@ -46,9 +46,9 @@ public class LiveScoreBoard {
         updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
     }
 
-
-    public void endMatch(Match match) {
-        scoreBoard.remove(match);
+    public void endMatch(Match match) throws BadParameterException {
+        var retrievedMatch = retrieveMatchFromScoreBoard(match);
+        scoreBoard.remove(retrievedMatch);
     }
 
     private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
