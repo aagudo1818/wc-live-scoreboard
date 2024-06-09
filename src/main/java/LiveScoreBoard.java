@@ -13,6 +13,9 @@ public class LiveScoreBoard {
         if (homeTeam.getName() == null || homeTeam.getName().isBlank() || awayTeam.getName() == null || awayTeam.getName().isBlank()){
             throw new BadParameterException("Team name not blank value is required");
         }
+        if (homeTeam.getAbbreviation() == null || homeTeam.getAbbreviation().isBlank() || awayTeam.getAbbreviation() == null || awayTeam.getAbbreviation().isBlank()){
+            throw new BadParameterException("Team abbreviation not blank value is required");
+        }
         if (scoreBoardContainsMatchWithRepeatedTeams(homeTeam, awayTeam)) {
             throw new BadParameterException("One of the specified teams is already playing a match");
         }
