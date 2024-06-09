@@ -16,10 +16,8 @@ public class LiveScoreBoard {
         if (isNullEmptyOrBlank(homeTeam.getAbbreviation()) || isNullEmptyOrBlank(awayTeam.getAbbreviation())) {
             throw new BadParameterException("Team abbreviation not blank value is required");
         }
-        homeTeam.setName(homeTeam.getName().trim());
-        homeTeam.setAbbreviation(homeTeam.getAbbreviation().trim());
-        awayTeam.setName(awayTeam.getName().trim());
-        awayTeam.setAbbreviation(awayTeam.getAbbreviation().trim());
+        homeTeam.trimProperties();
+        awayTeam.trimProperties();
         if (homeTeam.getAbbreviation().length() != 3 || awayTeam.getAbbreviation().length() != 3) {
             throw new BadParameterException("Team abbreviations must be three characters long");
         }

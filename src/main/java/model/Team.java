@@ -23,6 +23,11 @@ public class Team {
         return Objects.hash(getName(), getAbbreviation());
     }
 
+    public void trimProperties(){
+        this.name = name.trim();
+        this.abbreviation = abbreviation.trim();
+    }
+
     public String getName() {
         return name;
     }
