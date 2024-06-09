@@ -430,4 +430,14 @@ public class LiveScoreBoardTest {
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(2));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
     }
+
+    @Test
+    public void given_match_should_remove_it_from_scoreboard() {
+        Match match = new Match(new Team("HOME", "HME"), new Team("AWAY", "AWY"), new Score(), LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match);
+
+        liveScoreBoard.endMatch(match);
+
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
 }
