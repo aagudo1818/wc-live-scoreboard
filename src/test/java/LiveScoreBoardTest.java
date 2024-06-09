@@ -465,4 +465,30 @@ public class LiveScoreBoardTest {
         assertThat(liveScoreBoard.getScoreBoard().size(), is(1));
         assertThat(scoreBoard, is(match));
     }
+
+    @Test
+    public void given_scoreboard_should_return_it_ordered_by_score_and_starting_time_if_score_is_equal() {
+        Match match1 = new Match(new Team("HOME1", "HM1"), new Team("AWAY1", "AW1"), new Score(), LocalDateTime.now());
+        Score score2 = new Score();
+        score2.setHomeTeamScoredGoals(2);
+        score2.setAwayTeamScoredGoals(5);
+        Match match2 = new Match(new Team("HOME2", "HM2"), new Team("AWAY2", "AW2"), score2, LocalDateTime.now());
+        Match match3 = new Match(new Team("HOME3", "HM3"), new Team("AWAY3", "AW3"), new Score(), LocalDateTime.now());
+        Score score4 = new Score();
+        score4.setHomeTeamScoredGoals(1);
+        score4.setAwayTeamScoredGoals(2);
+        Match match4 = new Match(new Team("HOME4", "HM4"), new Team("AWAY4", "AW4"), score4, LocalDateTime.now());
+        liveScoreBoard.getScoreBoard().add(match1);
+        liveScoreBoard.getScoreBoard().add(match2);
+        liveScoreBoard.getScoreBoard().add(match3);
+        liveScoreBoard.getScoreBoard().add(match4);
+
+        var scoreBoardOrdered = liveScoreBoard.getScoreBoardSorted();
+        var scoreBoardIterator = scoreBoardOrdered.stream().iterator();
+
+        assertThat(scoreBoardIterator.next(), is(match2));
+        assertThat(scoreBoardIterator.next(), is(match4));
+        assertThat(scoreBoardIterator.next(), is(match3));
+        assertThat(scoreBoardIterator.next(), is(match1));
+    }
 }
