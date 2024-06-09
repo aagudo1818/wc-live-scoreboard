@@ -38,7 +38,6 @@ public class LiveScoreBoardTest {
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
         assertNotNull(scoreBoard.getStartTime());
-        assertNull(scoreBoard.getEndTime());
     }
 
     @Test
@@ -59,7 +58,6 @@ public class LiveScoreBoardTest {
         assertThat(scoreBoard.getScore().getHomeTeamScoredGoals(), is(0));
         assertThat(scoreBoard.getScore().getAwayTeamScoredGoals(), is(0));
         assertNotNull(scoreBoard.getStartTime());
-        assertNull(scoreBoard.getEndTime());
     }
 
     @Test
@@ -484,11 +482,10 @@ public class LiveScoreBoardTest {
         liveScoreBoard.getScoreBoard().add(match4);
 
         var scoreBoardOrdered = liveScoreBoard.getScoreBoardSorted();
-        var scoreBoardIterator = scoreBoardOrdered.stream().iterator();
 
-        assertThat(scoreBoardIterator.next(), is(match2));
-        assertThat(scoreBoardIterator.next(), is(match4));
-        assertThat(scoreBoardIterator.next(), is(match3));
-        assertThat(scoreBoardIterator.next(), is(match1));
+        assertThat(scoreBoardOrdered.get(0), is(match2));
+        assertThat(scoreBoardOrdered.get(1), is(match4));
+        assertThat(scoreBoardOrdered.get(2), is(match3));
+        assertThat(scoreBoardOrdered.get(3), is(match1));
     }
 }

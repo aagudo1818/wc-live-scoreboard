@@ -8,7 +8,6 @@ public class Match {
     private Team awayTeam;
     private Score score;
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
 
     public Match(Team homeTeam, Team awayTeam, Score score, LocalDateTime startTime) {
         this.homeTeam = homeTeam;
@@ -21,15 +20,15 @@ public class Match {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Match match)) return false;
-        return Objects.equals(getHomeTeam(), match.getHomeTeam()) && Objects.equals(getAwayTeam(), match.getAwayTeam()) && Objects.equals(getScore(), match.getScore()) && Objects.equals(getStartTime(), match.getStartTime()) && Objects.equals(getEndTime(), match.getEndTime());
+        return Objects.equals(getHomeTeam(), match.getHomeTeam()) && Objects.equals(getAwayTeam(), match.getAwayTeam()) && Objects.equals(getScore(), match.getScore()) && Objects.equals(getStartTime(), match.getStartTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getHomeTeam(), getAwayTeam(), getScore(), getStartTime(), getEndTime());
+        return Objects.hash(getHomeTeam(), getAwayTeam(), getScore(), getStartTime());
     }
 
-    public int getTotalScore(){
+    public int getTotalScore() {
         return this.score.getSumOfScores();
     }
 
@@ -63,13 +62,5 @@ public class Match {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
     }
 }

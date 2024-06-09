@@ -72,7 +72,10 @@ public class LiveScoreBoard {
     }
 
     public List<Match> getScoreBoardSorted() {
-        return scoreBoard.stream().sorted(Comparator.comparingInt(Match::getTotalScore).thenComparing(Match::getStartTime).reversed()).collect(Collectors.toList());
+        return scoreBoard.stream().sorted(
+                        Comparator.comparingInt(Match::getTotalScore)
+                                .thenComparing(Match::getStartTime).reversed())
+                .collect(Collectors.toList());
     }
 
     public HashSet<Match> getScoreBoard() {
