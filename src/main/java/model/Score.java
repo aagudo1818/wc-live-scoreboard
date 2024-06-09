@@ -26,6 +26,10 @@ public class Score {
         return awayTeamScoredGoals < this.awayTeamScoredGoals;
     }
 
+    public int getSumOfScores(){
+        return homeTeamScoredGoals + awayTeamScoredGoals;
+    }
+
     public int getHomeTeamScoredGoals() {
         return homeTeamScoredGoals;
     }

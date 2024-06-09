@@ -4,7 +4,10 @@ import model.Score;
 import model.Team;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LiveScoreBoard {
     private final HashSet<Match> scoreBoard = new HashSet<>(); //TODO make it thread safe
@@ -68,8 +71,11 @@ public class LiveScoreBoard {
         return value == null || value.isBlank();
     }
 
+    public List<Match> getScoreBoardSorted() {
+        return scoreBoard.stream().sorted(Comparator.comparingInt(Match::getTotalScore).thenComparing(Match::getStartTime).reversed()).collect(Collectors.toList());
+    }
+
     public HashSet<Match> getScoreBoard() {
         return scoreBoard;
     }
-
 }

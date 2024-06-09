@@ -29,6 +29,10 @@ public class Match {
         return Objects.hash(getHomeTeam(), getAwayTeam(), getScore(), getStartTime(), getEndTime());
     }
 
+    public int getTotalScore(){
+        return this.score.getSumOfScores();
+    }
+
     public Team getHomeTeam() {
         return homeTeam;
     }
