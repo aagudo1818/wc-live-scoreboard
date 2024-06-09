@@ -46,6 +46,11 @@ public class LiveScoreBoard {
         updateScore(retrievedMatch, homeTeamScore, awayTeamScore);
     }
 
+
+    public void endMatch(Match match) {
+        scoreBoard.remove(match);
+    }
+
     private boolean scoreBoardContainsMatchWithRepeatedTeams(Team homeTeam, Team awayTeam) {
         return scoreBoard.stream().anyMatch(match -> match.getHomeTeam().equals(homeTeam) || match.getAwayTeam().equals(awayTeam));
     }
@@ -66,4 +71,5 @@ public class LiveScoreBoard {
     public HashSet<Match> getScoreBoard() {
         return scoreBoard;
     }
+
 }
