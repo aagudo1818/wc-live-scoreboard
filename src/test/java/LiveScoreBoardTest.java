@@ -41,6 +41,72 @@ public class LiveScoreBoardTest {
     }
 
     @Test
+    public void given_null_name_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team(null, "HME");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team name not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_null_name_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team(null, "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team name not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_empty_name_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("", "HME");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team name not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_empty_name_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team("", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team name not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_blank_name_home_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("  ", "HME");
+        Team awayTeam = new Team("AWAY", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team name not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
+    public void given_blank_name_away_team_should_not_create_another_match_with_it() {
+        Team homeTeam = new Team("HOME", "HME");
+        Team awayTeam = new Team(" ", "AWY");
+
+        var exception = assertThrows(Exception.class, () -> liveScoreBoard.startNewMatch(homeTeam, awayTeam));
+
+        assertThat(exception.getMessage(), is("Team name not blank value is required"));
+        assertThat(liveScoreBoard.getScoreBoard().size(), is(0));
+    }
+
+    @Test
     public void given_repeated_home_team_should_not_create_another_match_with_it() throws BadParameterException {
         Team homeTeam = new Team("HOME", "HME");
         Team awayTeam = new Team("AWAY", "AWY");
