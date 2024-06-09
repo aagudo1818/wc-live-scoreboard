@@ -10,10 +10,10 @@ public class LiveScoreBoard {
     private final HashSet<Match> scoreBoard = new HashSet<>(); //TODO make it thread safe
 
     public void startNewMatch(Team homeTeam, Team awayTeam) throws BadParameterException {
-        if (homeTeam.getName() == null || homeTeam.getName().isBlank() || awayTeam.getName() == null || awayTeam.getName().isBlank()){
+        if (isNullEmptyOrBlank(homeTeam.getName()) || isNullEmptyOrBlank(awayTeam.getName())){
             throw new BadParameterException("Team name not blank value is required");
         }
-        if (homeTeam.getAbbreviation() == null || homeTeam.getAbbreviation().isBlank() || awayTeam.getAbbreviation() == null || awayTeam.getAbbreviation().isBlank()){
+        if (isNullEmptyOrBlank(homeTeam.getAbbreviation()) || isNullEmptyOrBlank(awayTeam.getAbbreviation())){
             throw new BadParameterException("Team abbreviation not blank value is required");
         }
         if (scoreBoardContainsMatchWithRepeatedTeams(homeTeam, awayTeam)) {
@@ -52,6 +52,10 @@ public class LiveScoreBoard {
         } else {
             throw new BadParameterException("The match was not added in the scoreboard");
         }
+    }
+
+    private boolean isNullEmptyOrBlank(String value){
+        return value == null || value.isBlank();
     }
 
     public HashSet<Match> getScoreBoard() {
